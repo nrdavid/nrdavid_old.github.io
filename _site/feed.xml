@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="http://localhost:4000/about/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/about/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-04-22T22:26:14-04:00</updated><id>http://localhost:4000/about/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+</subtitle><entry><title type="html">Onboarding - The Volcano Plot</title><link href="http://localhost:4000/about/blog/2022/volcano-guide/" rel="alternate" type="text/html" title="Onboarding - The Volcano Plot" /><published>2022-08-15T00:00:00-04:00</published><updated>2022-08-15T00:00:00-04:00</updated><id>http://localhost:4000/about/blog/2022/volcano-guide</id><content type="html" xml:base="http://localhost:4000/about/blog/2022/volcano-guide/"><![CDATA[<p>Welcome! This guide will teach you how to get started with Python and <a href="https://materialsproject.org/api">The Materials Project API</a>. The Materials Project is a powerful database providing access to over 140,000 unique materials. These materials along with a plethora of their properties were calculated <em>ab-initio</em>, or from first principles. Many of these calculations are driven by high-throughput density-functional theory (DFT). Given only a materials crystal structure, DFT can calculate a variety of different materials properties. By the end of this guide you’ll have learned to (1) run Python scripts, (2) connect to the Materials Project API, and (3) plot in <a href="https://matplotlib.org/">matplotlib</a>. This will be done by creating what we like to call “The Volcano Plot” from the paper, <a href="https://www.nature.com/articles/s41563-019-0396-2">“A map of the inorganic ternary metal nitrides”</a>, by Wenhao Sun et al.</p>
+
+<figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/about/assets/img/blog/volcano_plot_src-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/about/assets/img/blog/volcano_plot_src-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/about/assets/img/blog/volcano_plot_src-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/about/assets/img/blog/volcano_plot_src.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture><figcaption class="caption">The Volcano plot.</figcaption>
+
+</figure>
+
+<h2 id="getting-started-with-python">Getting started with Python</h2>
+
+<p>There are many different guides online for getting started with Python. This guide will use <a href="https://www.anaconda.com/">Anaconda</a> for managing Python environments and <a href="https://code.visualstudio.com/">Visual Studio Code</a> as an intergrated development environment (IDE).</p>
+
+<h3 id="1-setting-up-a-conda-environment">1. Setting up a conda environment</h3>
+
+<p>Download and install <a href="https://www.anaconda.com/">Anaconda</a>. Follow the installation instructions for your OS. Open a new terminal and create a new environment using the <code class="language-plaintext highlighter-rouge">conda create --name myenv</code> command. Replace <code class="language-plaintext highlighter-rouge">myenv</code> with your desired environment name. Now to navigate to your new environment use <code class="language-plaintext highlighter-rouge">conda activate myenv</code> and to naviagate away use <code class="language-plaintext highlighter-rouge">conda deactivate myenv</code>. Now your ready to use Python! Simply navigate to your new environment and type <code class="language-plaintext highlighter-rouge">python</code> to enter the interactive interpreter.</p>
+
+<h3 id="2-setting-up-visual-studo-code-vscode">2. Setting up Visual Studo Code (VSCode)</h3>
+
+<p>Download and install <a href="https://code.visualstudio.com/">Visual Studo Code</a>. Follow the installation instructions for your OS. VSCode is a lightweight IDE used for a variety of langauges. Once installed open VSCode and navigate to the “Extensions” tab. Search the marketplace for the “Python” extension and install. Once installed VSCode will be able to recognize Python, giving you meaningful feedback from the IDE when writing your code.</p>
+
+<p>Now locate the “New File” option in VSCode to create a new file. Then save it as a <code class="language-plaintext highlighter-rouge">.py</code> file to tell VSCode that this file is a python script. Now in VSCode open a “New Terminal” using the toolbar. From here you should have opened a new interactive shell within VSCode. Now active your conda environment and type <code class="language-plaintext highlighter-rouge">python filename.py</code> to run your script (make sure your in the same directory as your saved python file).</p>
+
+<figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/about/assets/img/blog/vscode_python_good-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/about/assets/img/blog/vscode_python_good-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/about/assets/img/blog/vscode_python_good-1400.webp" />
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/about/assets/img/blog/vscode_python_good.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+
+  </picture><figcaption class="caption">Getting Python setup in VSCode.</figcaption>
+
+</figure>
+
+<p>At this point it’s also a good idea to open the Command Palette to tell VSCode (and Pylance) which Python interpreter to point to. This will allow VSCode to properly identify which packages you have installed and which you do not. Use <span style="color:blue">⇧⌘P</span> (Mac) or <span style="color:blue"><code class="language-plaintext highlighter-rouge">Ctrl+Shift+P</code></span> (Windows). Then type <code class="language-plaintext highlighter-rouge">Python: Select Interpreter</code> and select the option. From here you should see all your available global environments. Choose the one you’ve setup and are using.</p>
+
+<h2 id="connecting-to-the-materials-project-api">Connecting to the Materials Project API</h2>
+
+<p>The Materials Project allows anyone to have direct access to current, most up-to-date information for the Materials Project database through their application programming interface (API).</p>
+
+<h3 id="1-getting-a-key">1. Getting a Key</h3>
+
+<p>Go to the <a href="https://materialsproject.org/api"> Materials Project API</a> and create an account to acquire a key. This key is your API access to their database. Keep track of this.</p>
+
+<h3 id="2-connecting-to-the-api">2. Connecting to the API</h3>
+
+<p>Since you’ve created a new conda environment, you’ll need to install the required packages in order to connect to the Materials Project API. This can be done via <code class="language-plaintext highlighter-rouge">conda install &lt;package name&gt;</code>. In your environment type:</p>
+
+<p><code class="language-plaintext highlighter-rouge">conda install mp-api</code></p>
+
+<p>into your terminal. After doing open a new python file and run the following code:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing connectivity to API by grabbing data for "mp-149"
+</span><span class="kn">from</span> <span class="nn">mp_api</span> <span class="kn">import</span> <span class="n">MPRester</span>
+<span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">YOUR_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">mpr</span><span class="p">.</span><span class="n">summary</span><span class="p">.</span><span class="n">get_data_by_id</span><span class="p">(</span><span class="s">"mp-149"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>If the code above executes with no errors, you’re all set!</p>
+
+<h2 id="completing-the-onboarding-assignment">Completing the Onboarding Assignment</h2>
+
+<p>Now you have all the necessary ground work to produce the volcano plot! The next steps are entirely up to you, but I would recommend following the ordered list below.</p>
+
+<ol>
+  <li>Read <a href="https://www.nature.com/articles/s41563-019-0396-2">“A map of the inorganic ternary metal nitrides”</a>, by Wenhao Sun et al.</li>
+  <li>Read the <a href="https://docs.materialsproject.org/">Materials Project API Docs</a> and play around with the API functionality.</li>
+  <li>Apply dynamic programming to acquire the data needed to create the volcano plot.</li>
+  <li>Familiarize yourself with <a href="https://matplotlib.org/">matplotlib</a>, then make the plot! Note: The plot may look slightly different from API changes over the years.</li>
+</ol>
+
+<p>Lastly, good luck!</p>]]></content><author><name></name></author><category term="tutorials" /><summary type="html"><![CDATA[This guide is meant for new members of the Sun group, or anyone interested in getting started with the Materials Project API.]]></summary></entry></feed>
