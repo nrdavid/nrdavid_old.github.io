@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>projects | Nicholas R. David</title>
     <meta name="author" content="Nicholas R. David">
-    <meta name="description" content="Personal projects">
+    <meta name="description" content="A growing collection of your cool projects.">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -129,11 +129,52 @@
 
           <header class="post-header">
             <h1 class="post-title">projects</h1>
-            <p class="post-description">Personal projects</p>
+            <p class="post-description">A growing collection of your cool projects.</p>
           </header>
 
           <article>
-            <p>Coming soon!</p>
+            <!-- pages/projects.md -->
+<div class="projects">
+  <!-- Display categorized projects -->
+  <h2 class="category">work</h2>
+  <!-- Generate cards for each project -->
+  <div class="grid">
+<!-- _includes/projects.html -->
+<div class="grid-sizer"></div>
+<div class="grid-item">
+  <a href="/projects/iron/">
+      <div class="card hoverable">
+<figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/iron/project_thumbnail-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/iron/project_thumbnail-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/iron/project_thumbnail-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/iron/project_thumbnail.png" width="auto" height="auto" alt="project thumbnail" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture>
+
+</figure>
+
+        <div class="card-body">
+          <h2 class="card-title text-lowercase">Free Energy of Iron from Materials Properties</h2>
+          <p class="card-text">From Properties to Free Energy</p>
+          <div class="row ml-1 mr-1 p-0">
+          </div>
+        </div>
+      </div>
+    </a>
+</div>
+  </div>
+  <h2 class="category">fun</h2>
+  <!-- Generate cards for each project -->
+  <div class="grid">
+  </div>
+</div>
 
           </article>
 
@@ -144,7 +185,7 @@
     <!-- Footer -->    <footer class="sticky-bottom mt-5">
       <div class="container">
         © Copyright 2023 Nicholas R. David. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. <br>
-Last updated: April 25, 2023.
+Last updated: May 16, 2023.
       </div>
     </footer>
 
