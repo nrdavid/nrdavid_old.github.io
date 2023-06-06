@@ -10,9 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Creating a Linux Docker Container for Development on Windows | Nicholas R. David</title>
+    <title>Connecting to a Docker Container via SSH | Nicholas R. David</title>
     <meta name="author" content="Nicholas R. David">
-    <meta name="description" content="This guide will demonstrate how to create a linux docker container for code development on a native Windows OS.">
+    <meta name="description" content="This guide will demonstrate how to connect to a Ubuntu Docker container via SSH for remote development.">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -33,7 +33,7 @@
     <link rel="shortcut icon" href="/assets/img/snorlax.ico">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/blog/2023/docker-setup/">
+    <link rel="canonical" href="http://localhost:4000/blog/2023/docker-ssh/">
     
     <!-- Dark Mode -->
     
@@ -121,8 +121,8 @@
 <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Creating a Linux Docker Container for Development on Windows</h1>
-    <p class="post-meta">June 5, 2023</p>
+    <h1 class="post-title">Connecting to a Docker Container via SSH</h1>
+    <p class="post-meta">June 6, 2023</p>
     <p class="post-tags">
       <a href="/blog/2023"> <i class="fas fa-calendar fa-sm"></i> 2023 </a>
         ·  
@@ -136,94 +136,152 @@
   </header>
 
   <article class="post-content">
-    <p>In this tutorial, we will demonsrate how to get started with Docker by creating a container with the latest version of Ubuntu. This tutorial is intended for new users of Docker. Docker is a set of platform as a service (PaaS) products that use OS-level virtualization to deliver software packages called <em>containers</em>. The software that hosts the containers is called the <strong>Docker Engine</strong>. Code developers, such as ourselves, will enjoy all the benefits of a unix based development environment by creating a docker container with the Ubuntu image.</p>
+    <p>In this tutorial, we will show how to connect to a Ubuntu Docker container via SSH. Note that some images may containing portions blacked out for security purposes.</p>
 
-<h2 id="0-installing-docker">0. Installing Docker</h2>
+<h2 id="0-creating-the-docker-container">0. Creating the Docker container</h2>
 
-<p>Visit <a href="https://www.docker.com" rel="external nofollow noopener" target="_blank">Docker</a> then download and install Docker desktop which will provide the backend and a friendly GUI for managing your machines. Make sure the ‘Use WSL2 instead of Hyper-V (recommended)’ box is checked. You will need to restart windows in order for the installation to complete. You may also receive a dialogue indicating that Docker Desktop requires a newer WSL kernel version. In this case type</p>
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wsl</span><span class="w"> </span><span class="nt">--update</span><span class="w">
+<p>Run the following command to create a new Docker container with the Ubuntu image publishing port 2200 on 22 in our Ubuntu machine.</p>
+
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">run</span><span class="w"> </span><span class="nt">--name</span><span class="w"> </span><span class="nx">test</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200:22</span><span class="w"> </span><span class="nt">-t</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">ubuntu</span><span class="w"> </span><span class="nx">/bin/bash</span><span class="w">
 </span></code></pre></div></div>
-<p>into Powershell. Now restart Docker Desktop.</p>
 
-<h2 id="1-pulling-an-image">1. Pulling an Image</h2>
-
-<p>The <a href="https://hub.docker.com/" rel="external nofollow noopener" target="_blank">Docker Hub</a> supports the upload and download of many different Docker <em>images</em>. These images act as a set of instructions to build a Docker container. There are a variety of different images including mysql, nodejs, nginx, and my more. We’re interested in creating a Ubuntu Docker container so we’ll type into Powershell:</p>
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">pull</span><span class="w"> </span><span class="nx">ubuntu</span><span class="w">
-</span></code></pre></div></div>
-<p>Throughout this tutorial, it is a good idea to keep the Docker Desktoop app open to provide yourself with GUI feedback to these oprations. Many of the operations I describe here can also be performed within the confines of the Docker Desktop application. If done successfully, you should see the ubuntu image under the ‘images’ section of Docker Desktop.</p>
-
-<figure>
-
-  <picture>
-    
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-setup/pull-success-480.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-setup/pull-success-800.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-setup/pull-success-1400.webp"></source>
-    
-
-    <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/docker-setup/pull-success.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
-
-  </picture><figcaption class="caption">Successful pull of ubuntu image.</figcaption>
-
-</figure>
-
-<h2 id="2-creating-the-container">2. Creating the container</h2>
-
-<p>Now that we have the Ubutun image successfully downloaded, we can create the Docker container. To do this, we can type the following command into Powershell.</p>
-
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">run</span><span class="w"> </span><span class="nt">--name</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200:22</span><span class="w"> </span><span class="nt">-v</span><span class="w"> </span><span class="nx">FILE_PATH:/src</span><span class="w"> </span><span class="nt">-t</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">ubuntu</span><span class="w"> </span><span class="nx">/bin/bash</span><span class="w">
-</span></code></pre></div></div>
-<p>Let’s disect this command. The <code class="language-plaintext highlighter-rouge">docker run</code> command creates and runs a new container from an image. The <code class="language-plaintext highlighter-rouge">--name</code> flag allows us to name the container <code class="language-plaintext highlighter-rouge">CONTAINER_NAME</code>. This can be whatever you want. Next the <code class="language-plaintext highlighter-rouge">-p</code> flag publishes our local port 2200 and fowards that to port 22 in the container. The <code class="language-plaintext highlighter-rouge">-v</code> flag bind mounts a volume specified by <code class="language-plaintext highlighter-rouge">FILE_PATH</code> and puts it in the <code class="language-plaintext highlighter-rouge">src</code> folder in the container. This will allow us to share the directory we specify, with the container. This street is two ways so anything written to <code class="language-plaintext highlighter-rouge">src</code> in the container will be written to <code class="language-plaintext highlighter-rouge">FILE_PATH</code> on the host machine and vice versa. <code class="language-plaintext highlighter-rouge">-t</code> allocates a pseduo-TTY and <code class="language-plaintext highlighter-rouge">-i</code> keeps STDIN open. Lastly, we specify the image we want docker to create the container from, <code class="language-plaintext highlighter-rouge">ubuntu</code> and we tell it to execute bash. If done successfully, you will see <code class="language-plaintext highlighter-rouge">root@some_string:/#</code> indicating that you have entered the container as <code class="language-plaintext highlighter-rouge">root</code>. <br>
-To exit the container simply type</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>
+<p>Be sure to give root a password using</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passwd
 </code></pre></div></div>
-<p>To enter back into the running container type</p>
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">exec</span><span class="w"> </span><span class="nt">-it</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w"> </span><span class="nx">bash</span><span class="w">
-</span></code></pre></div></div>
-<p>Furthermore, to stop a running container, first exit the container then type</p>
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w">
-</span></code></pre></div></div>
-<p>To start the container again type,</p>
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w">
-</span></code></pre></div></div>
-<p>which will bring you back to root. From the Docker Desktop application, you can see a list of all your containers and actions you can perform with them.</p>
+
+<h2 id="1-updating-upgrading-and-installing-openssh-server-and-nano">1. Updating, upgrading, and installing openSSH-server and nano</h2>
+
+<p>Now that we have the container created and running, we will update and upgrade <code class="language-plaintext highlighter-rouge">apt</code>.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt update <span class="o">&amp;&amp;</span> apt upgrade
+</code></pre></div></div>
+<p>Then we will need to install openSSH-server.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install </span>openSSH-server
+</code></pre></div></div>
+<p>Now install nano.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install </span>nano
+</code></pre></div></div>
+
+<h2 id="2-installing-and-adding-a-new-user-to-sudo">2. Installing and adding a new user to sudo</h2>
+<p>When communicating remotely with any machine, security is a top priority. It is more secure to interface with the machine through a new user rather than root. With this, you can manage and restrict the permissions of the user, making your machine and data more secure. <br>
+Before creating a new user, we will install sudo which stands for “superuser do” or “substitute user”.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install sudo</span>
+</code></pre></div></div>
+<p>Next we will create the new user.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">sudo </span>adduser USERNAME
+</code></pre></div></div>
+<p>We call this user ‘patrick’. You will be prompted to give patrick a password along with some other information that is optional. Next we will add patrick to the sudo group giving him sudo access.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>usermod <span class="nt">-aG</span> <span class="nb">sudo </span>patrick
+</code></pre></div></div>
+<p>Now to switch to patrick (and between users) use</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>su patrick
+</code></pre></div></div>
+<p>Now whenever you want to run a command that requires sudo permissions, just prepend sudo.</p>
+
+<h2 id="3-starting-and-stopping-ssh">3. Starting and stopping SSH</h2>
+<p>Switch back to the root user. We will now begin the process of enabling SSH. After installing openSSH-server, you will be able to use</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service <span class="nt">--status-all</span>
+</code></pre></div></div>
+<p>which will display the services and available and whether they are active. For example, this is what you should see if SSH is inactive.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ - ] dbus
+[ ? ] hwclock.sh
+[ - ] procps
+[ - ] SSH
+</code></pre></div></div>
+<p>to active SSH, type</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service SSH start
+</code></pre></div></div>
+<p>then follow that by <code class="language-plaintext highlighter-rouge">service --status-all</code> and you should see the following.</p>
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ - ] dbus
+[ ? ] hwclock.sh
+[ - ] procps
+[ + ] SSH
+</code></pre></div></div>
+<p>Before we are able to SSH into the container, we need allow for us to connect to root in the SSH config file.</p>
+
+<p><strong>THIS IS OPTIONAL. WE DO NOT NEED TO ENABLE ROOT LOGIN. THIS IS ACTUALLY BAD PRACTICE. INSTEAD WE SHOULD JUST SSH TO PATRICK.</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano /etc/SSH/SSHd_config
+</code></pre></div></div>
+<p>Add <code class="language-plaintext highlighter-rouge">PermitRootLogin yes</code> under the Authentication section.</p>
 
 <figure>
 
   <picture>
     
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-setup/running_container-480.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-setup/running_container-800.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-setup/running_container-1400.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-SSH/permit_root-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-SSH/permit_root-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-SSH/permit_root-1400.webp"></source>
     
 
     <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/docker-setup/running_container.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+    <img src="/assets/img/blog/docker-SSH/permit_root.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
 
-  </picture><figcaption class="caption">A list of containers inside Docker Desktop.</figcaption>
+  </picture><figcaption class="caption">Granting access to login as root SSH.</figcaption>
 
 </figure>
 
-<h2 id="3-conclusion">3. Conclusion</h2>
+<p>If you’re SSH server was running while doing this, you will need to restart the SSH service to apply the changes.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service SSH restart
+</code></pre></div></div>
 
-<p>In this tutorial, we learned how to create a Docker container from a downloaded image. We also covered some of the basic Docker commands you need to get started. Happy Dockerizing!</p>
+<p>Alternatively, to SSH to patrick,</p>
 
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SSH</span><span class="w"> </span><span class="nx">patrick</span><span class="err">@</span><span class="nx">localhost</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200</span><span class="w">
+</span></code></pre></div></div>
+<p>and if this is your first time connecting, you will see the message in the image below.</p>
+
+<div style="text-align:center">
 <figure>
 
   <picture>
     
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-setup/whale-480.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-setup/whale-800.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-setup/whale-1400.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-SSH/patrick-SSH-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-SSH/patrick-SSH-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-SSH/patrick-SSH-1400.webp"></source>
     
 
     <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/docker-setup/whale.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+    <img src="/assets/img/blog/docker-SSH/patrick-SSH.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
 
-  </picture><figcaption class="caption">The Docker Whale having fun containerizing with Mr. Tentacles.</figcaption>
+  </picture><figcaption class="caption">Granting access to login as patrick SSH.</figcaption>
 
 </figure>
+
+</div>
+
+<h2 id="4-connecting-to-the-container-via-ssh-from-anoter-machine">4. Connecting to the container via SSH from anoter machine</h2>
+
+<p>Ideally, we want to be able to SSH to the container from a machine other than our host. To do this, we will need to find the IP of the host machine. Into powershell type</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ipconfig</span><span class="w">
+</span></code></pre></div></div>
+<p>and take note of the IPv4 address. <strong>Note: If the IP address of your host machine is dynamic, this will change over time. In this case you will need an additional service to handle this. I will not be covering this in this tutorial.</strong></p>
+
+<div style="text-align:center">
+<figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-SSH/find-ip-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-SSH/find-ip-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-SSH/find-ip-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/docker-SSH/find-ip.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture><figcaption class="caption">Getting your host machine's IP address.</figcaption>
+
+</figure>
+
+</div>
+
+<p>Now to connect to the container from another machine, type</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SSH</span><span class="w"> </span><span class="nx">patrick</span><span class="err">@</span><span class="nx">HOST_IP</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200</span><span class="w">
+</span></code></pre></div></div>
+<p>and you should be prompted for patrick’s password. Once entered, you will be connected. <strong>Note: Depending on the administrator settings of your host network of your host machine, you may need to VPN into the host network first.</strong></p>
+
+<h2 id="5-conclusion">5. Conclusion</h2>
+<p>In this tutorial we showed how to make a new user, install openSSH-server, and connect to a Docker container via SSH. This is useful for remote development and testing.</p>
 
   </article>
 </div>
