@@ -10,9 +10,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Onboarding - The Volcano Plot | Nicholas R. David</title>
+    <title>Creating a Linux Docker Container for Development on Windows | Nicholas R. David</title>
     <meta name="author" content="Nicholas R. David">
-    <meta name="description" content="This guide is meant for new members of the Sun group, or anyone interested in getting started with the Materials Project API.">
+    <meta name="description" content="This guide will demonstrate how to create a linux docker container for code development on a native Windows OS.">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -33,7 +33,7 @@
     <link rel="shortcut icon" href="/assets/img/snorlax.ico">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/blog/2022/volcano-guide/">
+    <link rel="canonical" href="http://localhost:4000/blog/2023/docker-setup/">
     
     <!-- Dark Mode -->
     
@@ -121,10 +121,10 @@
 <div class="post">
 
   <header class="post-header">
-    <h1 class="post-title">Onboarding - The Volcano Plot</h1>
-    <p class="post-meta">August 15, 2022</p>
+    <h1 class="post-title">Creating a Linux Docker Container for Development on Windows</h1>
+    <p class="post-meta">June 5, 2023</p>
     <p class="post-tags">
-      <a href="/blog/2022"> <i class="fas fa-calendar fa-sm"></i> 2022 </a>
+      <a href="/blog/2023"> <i class="fas fa-calendar fa-sm"></i> 2023 </a>
         ·  
         <a href="/blog/tag/tutorials">
           <i class="fas fa-hashtag fa-sm"></i> tutorials,</a>  
@@ -136,91 +136,94 @@
   </header>
 
   <article class="post-content">
-    <p>Welcome! This guide will teach you how to get started with Python and <a href="https://materialsproject.org/api" rel="external nofollow noopener" target="_blank">The Materials Project API</a>. The Materials Project is a powerful database providing access to over 140,000 unique materials. These materials along with a plethora of their properties were calculated <em>ab-initio</em>, or from first principles. Many of these calculations are driven by high-throughput density-functional theory (DFT). Given only a materials crystal structure, DFT can calculate a variety of different materials properties. By the end of this guide you’ll have learned to (1) run Python scripts, (2) connect to the Materials Project API, and (3) plot in <a href="https://matplotlib.org/" rel="external nofollow noopener" target="_blank">matplotlib</a>. This will be done by creating what we like to call “The Volcano Plot” from the paper, <a href="https://www.nature.com/articles/s41563-019-0396-2" rel="external nofollow noopener" target="_blank">“A map of the inorganic ternary metal nitrides”</a>, by Wenhao Sun et al.</p>
+    <p>In this tutorial, we will demonsrate how to get started with Docker by creating a container with the latest version of Ubuntu. This tutorial is intended for new users of Docker. Docker is a set of platform as a service (PaaS) products that use OS-level virtualization to deliver software packages called <em>containers</em>. The software that hosts the containers is called the <strong>Docker Engine</strong>. Code developers, such as ourselves, will enjoy all the benefits of a unix based development environment by creating a docker container with the Ubuntu image.</p>
+
+<h2 id="0-installing-docker">0. Installing Docker</h2>
+
+<p>Visit <a href="https://www.docker.com" rel="external nofollow noopener" target="_blank">Docker</a> then download and install Docker desktop which will provide the backend and a friendly GUI for managing your machines. Make sure the ‘Use WSL2 instead of Hyper-V (recommended)’ box is checked. You will need to restart windows in order for the installation to complete. You may also receive a dialogue indicating that Docker Desktop requires a newer WSL kernel version. In this case type</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wsl</span><span class="w"> </span><span class="nt">--update</span><span class="w">
+</span></code></pre></div></div>
+<p>into Powershell. Now restart Docker Desktop.</p>
+
+<h2 id="1-pulling-an-image">1. Pulling an Image</h2>
+
+<p>The <a href="https://hub.docker.com/" rel="external nofollow noopener" target="_blank">Docker Hub</a> supports the upload and download of many different Docker <em>images</em>. These images act as a set of instructions to build a Docker container. There are a variety of different images including mysql, nodejs, nginx, and my more. We’re interested in creating a Ubuntu Docker container so we’ll type into Powershell:</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">pull</span><span class="w"> </span><span class="nx">ubuntu</span><span class="w">
+</span></code></pre></div></div>
+<p>Throughout this tutorial, it is a good idea to keep the Docker Desktoop app open to provide yourself with GUI feedback to these oprations. Many of the operations I describe here can also be performed within the confines of the Docker Desktop application. If done successfully, you should see the ubuntu image under the ‘images’ section of Docker Desktop.</p>
 
 <figure>
 
   <picture>
     
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/volcano-guide/volcano_plot_src-480.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/volcano-guide/volcano_plot_src-800.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/volcano-guide/volcano_plot_src-1400.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-setup/pull-success-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-setup/pull-success-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-setup/pull-success-1400.webp"></source>
     
 
     <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/volcano-guide/volcano_plot_src.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+    <img src="/assets/img/blog/docker-setup/pull-success.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
 
-  </picture><figcaption class="caption">The Volcano plot.</figcaption>
-
-</figure>
-
-<h2 id="getting-started-with-python">Getting started with Python</h2>
-
-<p>There are many different guides online for getting started with Python. This guide will use <a href="https://www.anaconda.com/" rel="external nofollow noopener" target="_blank">Anaconda</a> for managing Python environments and <a href="https://code.visualstudio.com/" rel="external nofollow noopener" target="_blank">Visual Studio Code</a> as an intergrated development environment (IDE).</p>
-
-<h3 id="1-setting-up-a-conda-environment">1. Setting up a conda environment</h3>
-
-<p>Download and install <a href="https://www.anaconda.com/" rel="external nofollow noopener" target="_blank">Anaconda</a>. Follow the installation instructions for your OS. Open a new terminal and create a new environment using the <code class="language-plaintext highlighter-rouge">conda create --name myenv</code> command. Replace <code class="language-plaintext highlighter-rouge">myenv</code> with your desired environment name. Now to navigate to your new environment use <code class="language-plaintext highlighter-rouge">conda activate myenv</code> and to naviagate away use <code class="language-plaintext highlighter-rouge">conda deactivate myenv</code>. Now your ready to use Python! Simply navigate to your new environment and type <code class="language-plaintext highlighter-rouge">python</code> to enter the interactive interpreter.</p>
-
-<h3 id="2-setting-up-visual-studo-code-vscode">2. Setting up Visual Studo Code (VSCode)</h3>
-
-<p>Download and install <a href="https://code.visualstudio.com/" rel="external nofollow noopener" target="_blank">Visual Studo Code</a>. Follow the installation instructions for your OS. VSCode is a lightweight IDE used for a variety of langauges. Once installed open VSCode and navigate to the “Extensions” tab. Search the marketplace for the “Python” extension and install. Once installed VSCode will be able to recognize Python, giving you meaningful feedback from the IDE when writing your code.</p>
-
-<p>Now locate the “New File” option in VSCode to create a new file. Then save it as a <code class="language-plaintext highlighter-rouge">.py</code> file to tell VSCode that this file is a python script. Now in VSCode open a “New Terminal” using the toolbar. From here you should have opened a new interactive shell within VSCode. Now active your conda environment and type <code class="language-plaintext highlighter-rouge">python filename.py</code> to run your script (make sure your in the same directory as your saved python file).</p>
-
-<figure>
-
-  <picture>
-    
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/volcano-guide/vscode_python_good-480.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/volcano-guide/vscode_python_good-800.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/volcano-guide/vscode_python_good-1400.webp"></source>
-    
-
-    <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/volcano-guide/vscode_python_good.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
-
-  </picture><figcaption class="caption">Getting Python setup in VSCode.</figcaption>
+  </picture><figcaption class="caption">Successful pull of ubuntu image.</figcaption>
 
 </figure>
 
-<p>At this point it’s also a good idea to open the Command Palette to tell VSCode (and Pylance) which Python interpreter to point to. This will allow VSCode to properly identify which packages you have installed and which you do not. Use <span style="color:blue">⇧⌘P</span> (Mac) or <span style="color:blue"><code class="language-plaintext highlighter-rouge">Ctrl+Shift+P</code></span> (Windows). Then type <code class="language-plaintext highlighter-rouge">Python: Select Interpreter</code> and select the option. From here you should see all your available global environments. Choose the one you’ve setup and are using.</p>
+<h2 id="2-creating-the-container">2. Creating the container</h2>
 
-<h2 id="connecting-to-the-materials-project-api">Connecting to the Materials Project API</h2>
+<p>Now that we have the Ubutun image successfully downloaded, we can create the Docker container. To do this, we can type the following command into Powershell.</p>
 
-<p>The Materials Project allows anyone to have direct access to current, most up-to-date information for the Materials Project database through their application programming interface (API).</p>
-
-<h3 id="1-getting-a-key">1. Getting a Key</h3>
-
-<p>Go to the <a href="https://materialsproject.org/api" rel="external nofollow noopener" target="_blank"> Materials Project API</a> and create an account to acquire a key. This key is your API access to their database. Keep track of this.</p>
-
-<h3 id="2-connecting-to-the-api">2. Connecting to the API</h3>
-
-<p>Since you’ve created a new conda environment, you’ll need to install the required packages in order to connect to the Materials Project API. This can be done via <code class="language-plaintext highlighter-rouge">conda install &lt;package name&gt;</code>. In your environment type:</p>
-
-<p><code class="language-plaintext highlighter-rouge">conda install mp-api</code></p>
-
-<p>into your terminal. After doing open a new python file and run the following code:</p>
-
-<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing connectivity to API by grabbing data for "mp-149"
-</span><span class="kn">from</span> <span class="nn">mp_api</span> <span class="kn">import</span> <span class="n">MPRester</span>
-<span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">YOUR_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">mpr</span><span class="p">.</span><span class="n">summary</span><span class="p">.</span><span class="n">get_data_by_id</span><span class="p">(</span><span class="s">"mp-149"</span><span class="p">)</span>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">run</span><span class="w"> </span><span class="nt">--name</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200:22</span><span class="w"> </span><span class="nt">-v</span><span class="w"> </span><span class="nx">FILE_PATH:/src</span><span class="w"> </span><span class="nt">-t</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">ubuntu</span><span class="w"> </span><span class="nx">/bin/bash</span><span class="w">
+</span></code></pre></div></div>
+<p>Let’s disect this command. The <code class="language-plaintext highlighter-rouge">docker run</code> command creates and runs a new container from an image. The <code class="language-plaintext highlighter-rouge">--name</code> flag allows us to name the container <code class="language-plaintext highlighter-rouge">CONTAINER_NAME</code>. This can be whatever you want. Next the <code class="language-plaintext highlighter-rouge">-p</code> flag publishes our local port 2200 and fowards that to port 22 in the container. The <code class="language-plaintext highlighter-rouge">-v</code> flag bind mounts a volume specified by <code class="language-plaintext highlighter-rouge">FILE_PATH</code> and puts it in the <code class="language-plaintext highlighter-rouge">src</code> folder in the container. This will allow us to share the directory we specify, with the container. This street is two ways so anything written to <code class="language-plaintext highlighter-rouge">src</code> in the container will be written to <code class="language-plaintext highlighter-rouge">FILE_PATH</code> on the host machine and vice versa. <code class="language-plaintext highlighter-rouge">-t</code> allocates a pseduo-TTY and <code class="language-plaintext highlighter-rouge">-i</code> keeps STDIN open. Lastly, we specify the image we want docker to create the container from, <code class="language-plaintext highlighter-rouge">ubuntu</code> and we tell it to execute bash. If done successfully, you will see <code class="language-plaintext highlighter-rouge">root@some_string:/#</code> indicating that you have entered the container as <code class="language-plaintext highlighter-rouge">root</code>. <br>
+To exit the container simply type</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>
 </code></pre></div></div>
-<p>If the code above executes with no errors, you’re all set!</p>
+<p>To enter back into the running container type</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">exec</span><span class="w"> </span><span class="nt">-it</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w"> </span><span class="nx">bash</span><span class="w">
+</span></code></pre></div></div>
+<p>Furthermore, to stop a running container, first exit the container then type</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w">
+</span></code></pre></div></div>
+<p>To start the container again type,</p>
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">docker</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="nt">-i</span><span class="w"> </span><span class="nx">CONTAINER_NAME</span><span class="w">
+</span></code></pre></div></div>
+<p>which will bring you back to root. From the Docker Desktop application, you can see a list of all your containers and actions you can perform with them.</p>
 
-<h2 id="completing-the-onboarding-assignment">Completing the Onboarding Assignment</h2>
+<figure>
 
-<p>Now you have all the necessary ground work to produce the volcano plot! The next steps are entirely up to you, but I would recommend following the ordered list below.</p>
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-setup/running_container-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-setup/running_container-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-setup/running_container-1400.webp"></source>
+    
 
-<ol>
-  <li>Read <a href="https://www.nature.com/articles/s41563-019-0396-2" rel="external nofollow noopener" target="_blank">“A map of the inorganic ternary metal nitrides”</a>, by Wenhao Sun et al.</li>
-  <li>Read the <a href="https://docs.materialsproject.org/" rel="external nofollow noopener" target="_blank">Materials Project API Docs</a> and play around with the API functionality.</li>
-  <li>Apply dynamic programming to acquire the data needed to create the volcano plot.</li>
-  <li>Familiarize yourself with <a href="https://matplotlib.org/" rel="external nofollow noopener" target="_blank">matplotlib</a>, then make the plot! Note: The plot may look slightly different from API changes over the years.</li>
-</ol>
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/docker-setup/running_container.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
 
-<p>Lastly, good luck!</p>
+  </picture><figcaption class="caption">A list of containers inside Docker Desktop.</figcaption>
+
+</figure>
+
+<h2 id="3-conclusion">3. Conclusion</h2>
+
+<p>In this tutorial, we learned how to create a Docker container from a downloaded image. We also covered some of the basic Docker commands you need to get started. Happy Dockerizing!</p>
+
+<figure>
+
+  <picture>
+    
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-setup/whale-480.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-setup/whale-800.webp"></source>
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-setup/whale-1400.webp"></source>
+    
+
+    <!-- Fallback to the original file -->
+    <img src="/assets/img/blog/docker-setup/whale.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
+
+  </picture><figcaption class="caption">The Docker Whale having fun containerizing with Mr. Tentacles.</figcaption>
+
+</figure>
 
   </article>
 </div>

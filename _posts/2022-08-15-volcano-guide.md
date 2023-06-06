@@ -3,12 +3,12 @@ layout: post
 title: Onboarding - The Volcano Plot
 date: 2022-08-15
 description: This guide is meant for new members of the Sun group, or anyone interested in getting started with the Materials Project API.
-tags: tutorials
+tags: tutorials, code
 ---
 
 Welcome! This guide will teach you how to get started with Python and <a href="https://materialsproject.org/api">The Materials Project API</a>. The Materials Project is a powerful database providing access to over 140,000 unique materials. These materials along with a plethora of their properties were calculated *ab-initio*, or from first principles. Many of these calculations are driven by high-throughput density-functional theory (DFT). Given only a materials crystal structure, DFT can calculate a variety of different materials properties. By the end of this guide you'll have learned to (1) run Python scripts, (2) connect to the Materials Project API, and (3) plot in <a href="https://matplotlib.org/">matplotlib</a>. This will be done by creating what we like to call "The Volcano Plot" from the paper, <a href="https://www.nature.com/articles/s41563-019-0396-2">"A map of the inorganic ternary metal nitrides"</a>, by Wenhao Sun et al.
 
-{% include figure.html path="/assets/img/blog/volcano_plot_src.png" class="img-fluid rounded z-depth-1" caption="The Volcano plot." %}
+{% include figure.html path="/assets/img/blog/volcano-guide/volcano_plot_src.png" class="img-fluid rounded z-depth-1" caption="The Volcano plot." %}
 
 ## Getting started with Python
 
@@ -24,7 +24,7 @@ Download and install <a href="https://code.visualstudio.com/">Visual Studo Code<
 
 Now locate the "New File" option in VSCode to create a new file. Then save it as a `.py` file to tell VSCode that this file is a python script. Now in VSCode open a "New Terminal" using the toolbar. From here you should have opened a new interactive shell within VSCode. Now active your conda environment and type `python filename.py` to run your script (make sure your in the same directory as your saved python file).
 
-{% include figure.html path="/assets/img/blog/vscode_python_good.png" class="img-fluid rounded z-depth-1" caption="Getting Python setup in VSCode." %}
+{% include figure.html path="/assets/img/blog/volcano-guide/vscode_python_good.png" class="img-fluid rounded z-depth-1" caption="Getting Python setup in VSCode." %}
 
 At this point it's also a good idea to open the Command Palette to tell VSCode (and Pylance) which Python interpreter to point to. This will allow VSCode to properly identify which packages you have installed and which you do not. Use <span style="color:blue">&#8679;&#8984;P</span> (Mac) or <span style="color:blue">`Ctrl+Shift+P`</span> (Windows). Then type `Python: Select Interpreter` and select the option. From here you should see all your available global environments. Choose the one you've setup and are using.
 
