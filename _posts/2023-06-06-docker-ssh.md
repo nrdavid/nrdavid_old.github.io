@@ -26,9 +26,9 @@ Now that we have the container created and running, we will update and upgrade `
 ```bash
 apt update && apt upgrade
 ```
-Then we will need to install openSSH-server.
+Then we will need to install openssh-server.
 ```bash
-apt install openSSH-server
+apt install openssh-server
 ```
 Now install nano.
 ```bash
@@ -56,7 +56,7 @@ su patrick
 Now whenever you want to run a command that requires sudo permissions, just prepend sudo.
 
 ## 3. Starting and stopping SSH
-Switch back to the root user. We will now begin the process of enabling SSH. After installing openSSH-server, you will be able to use
+Switch back to the root user. We will now begin the process of enabling SSH. After installing openssh-server, you will be able to use
 ```bash
 service --status-all
 ```
@@ -65,44 +65,44 @@ which will display the services and available and whether they are active. For e
 [ - ] dbus
 [ ? ] hwclock.sh
 [ - ] procps
-[ - ] SSH
+[ - ] ssh
 ```
 to active SSH, type
 ```bash
-service SSH start
+service ssh start
 ```
 then follow that by `service --status-all` and you should see the following.
 ```text
 [ - ] dbus
 [ ? ] hwclock.sh
 [ - ] procps
-[ + ] SSH
+[ + ] ssh
 ```
 Before we are able to SSH into the container, we need allow for us to connect to root in the SSH config file.
 
 **THIS IS OPTIONAL. WE DO NOT NEED TO ENABLE ROOT LOGIN. THIS IS ACTUALLY BAD PRACTICE. INSTEAD WE SHOULD JUST SSH TO PATRICK.**
 
 ```bash
-nano /etc/SSH/SSHd_config
+nano /etc/ssh/sshd_config
 ```
 Add `PermitRootLogin yes` under the Authentication section.
 
-{% include figure.html path="assets/img/blog/docker-SSH/permit_root.png" class="img-fluid rounded z-depth-1" caption="Granting access to login as root SSH." %}
+{% include figure.html path="assets/img/blog/docker-ssh/permit_root.png" class="img-fluid rounded z-depth-1" caption="Granting access to login as root SSH." %}
 
 If you're SSH server was running while doing this, you will need to restart the SSH service to apply the changes.
 ```bash
-service SSH restart
+service ssh restart
 ```
 
 Alternatively, to SSH to patrick,
 
 ```powershell
-SSH patrick@localhost -p 2200
+ssh patrick@localhost -p 2200
 ```
 and if this is your first time connecting, you will see the message in the image below.
 
 <div style="text-align:center">
-{% include figure.html path="assets/img/blog/docker-SSH/patrick-SSH.png" class="img-fluid rounded z-depth-1" caption="Granting access to login as patrick SSH."%}
+{% include figure.html path="assets/img/blog/docker-ssh/patrick-ssh.png" class="img-fluid rounded z-depth-1" caption="Granting access to login as patrick SSH."%}
 </div>
 
 ## 4. Connecting to the container via SSH from anoter machine
@@ -114,14 +114,14 @@ ipconfig
 and take note of the IPv4 address. **Note: If the IP address of your host machine is dynamic, this will change over time. In this case you will need an additional service to handle this. I will not be covering this in this tutorial.**
 
 <div style="text-align:center">
-{% include figure.html path="assets/img/blog/docker-SSH/find-ip.png" class="img-fluid rounded z-depth-1" caption="Getting your host machine's IP address."%}
+{% include figure.html path="assets/img/blog/docker-ssh/find-ip.png" class="img-fluid rounded z-depth-1" caption="Getting your host machine's IP address."%}
 </div>
 
 Now to connect to the container from another machine, type
 ```powershell
-SSH patrick@HOST_IP -p 2200
+ssh patrick@HOST_IP -p 2200
 ```
 and you should be prompted for patrick's password. Once entered, you will be connected. **Note: Depending on the administrator settings of your host network of your host machine, you may need to VPN into the host network first.**
 
 ## 5. Conclusion
-In this tutorial we showed how to make a new user, install openSSH-server, and connect to a Docker container via SSH. This is useful for remote development and testing.
+In this tutorial we showed how to make a new user, install openssh-server, and connect to a Docker container via SSH. This is useful for remote development and testing.
