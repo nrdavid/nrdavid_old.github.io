@@ -24,17 +24,18 @@
       institution: Materials Science & Engineering, University of Michigan, Ann Arbor, MI, USA
       year: Aug 2022 - present
       description:
-        - Developing machine learning models for inorganic materials synthesis
-        - Reconstructing high dimensional free energy surfaces from materials properties
+        - Developing new, data driven predictive theory of inorganic materials synthesis through Bayesian methods
+        - Machine-processing over 100,000 graduate applications for improving diversity, equity, and inclusion using large language models
+        - Constructing high dimensional, free energy surfaces from materials properties
     
     - title: Undergraduate Research Assistant (Rollett Group)
       institution: Carnegie Mellon University, Pittsburgh, PA, USA
       year: Aug 2021 -  May 2022
       description:
         - Implemented two materials science word2vec models for classifying abstracts' relevancy to superalloys
-        - Utilized clustering models such as t-SNE and UMAP to understand hidden structures within gathered abstracts
+        - Utilized unsupervised learning algorithms, t-SNE and UMAP, to understand hidden structures within gathered abstracts
         - Fine-tuned a pre-trained materials science BERT language model for abstract classification
-        - Assembled a large materials science dataset filled with abstracts for training a multiclass abstract classifier
+        - Data mined over 50,000 materials science abstracts for training a multiclass classifier
     
     - title: Undergraduate Research Fellowship (LIQUID Group)
       institution: Carnegie Mellon University, Pittsburgh, PA, USA

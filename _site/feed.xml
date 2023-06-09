@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-06-06T16:09:22-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">blank</title><subtitle>A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2023-06-09T15:04:42-04:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">blank</title><subtitle>Computational materials scientist and data scientist with a passion for open source software and reproducible research.
 </subtitle><entry><title type="html">Connecting to a Docker Container via SSH</title><link href="http://localhost:4000/blog/2023/docker-ssh/" rel="alternate" type="text/html" title="Connecting to a Docker Container via SSH" /><published>2023-06-06T00:00:00-04:00</published><updated>2023-06-06T00:00:00-04:00</updated><id>http://localhost:4000/blog/2023/docker-ssh</id><content type="html" xml:base="http://localhost:4000/blog/2023/docker-ssh/"><![CDATA[<p>In this tutorial, we will show how to connect to a Ubuntu Docker container via SSH. Note that some images may containing portions blacked out for security purposes.</p>
 
 <h2 id="0-creating-the-docker-container">0. Creating the Docker container</h2>
@@ -17,8 +17,8 @@
 <p>Now that we have the container created and running, we will update and upgrade <code class="language-plaintext highlighter-rouge">apt</code>.</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt update <span class="o">&amp;&amp;</span> apt upgrade
 </code></pre></div></div>
-<p>Then we will need to install openSSH-server.</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install </span>openSSH-server
+<p>Then we will need to install openssh-server.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install </span>openssh-server
 </code></pre></div></div>
 <p>Now install nano.</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>apt <span class="nb">install </span>nano
@@ -41,29 +41,29 @@ Before creating a new user, we will install sudo which stands for “superuser d
 <p>Now whenever you want to run a command that requires sudo permissions, just prepend sudo.</p>
 
 <h2 id="3-starting-and-stopping-ssh">3. Starting and stopping SSH</h2>
-<p>Switch back to the root user. We will now begin the process of enabling SSH. After installing openSSH-server, you will be able to use</p>
+<p>Switch back to the root user. We will now begin the process of enabling SSH. After installing openssh-server, you will be able to use</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service <span class="nt">--status-all</span>
 </code></pre></div></div>
 <p>which will display the services and available and whether they are active. For example, this is what you should see if SSH is inactive.</p>
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ - ] dbus
 [ ? ] hwclock.sh
 [ - ] procps
-[ - ] SSH
+[ - ] ssh
 </code></pre></div></div>
 <p>to active SSH, type</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service SSH start
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service ssh start
 </code></pre></div></div>
 <p>then follow that by <code class="language-plaintext highlighter-rouge">service --status-all</code> and you should see the following.</p>
 <div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[ - ] dbus
 [ ? ] hwclock.sh
 [ - ] procps
-[ + ] SSH
+[ + ] ssh
 </code></pre></div></div>
 <p>Before we are able to SSH into the container, we need allow for us to connect to root in the SSH config file.</p>
 
 <p><strong>THIS IS OPTIONAL. WE DO NOT NEED TO ENABLE ROOT LOGIN. THIS IS ACTUALLY BAD PRACTICE. INSTEAD WE SHOULD JUST SSH TO PATRICK.</strong></p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano /etc/SSH/SSHd_config
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano /etc/ssh/sshd_config
 </code></pre></div></div>
 <p>Add <code class="language-plaintext highlighter-rouge">PermitRootLogin yes</code> under the Authentication section.</p>
 
@@ -71,25 +71,25 @@ Before creating a new user, we will install sudo which stands for “superuser d
 
   <picture>
     
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-SSH/permit_root-480.webp" />
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-SSH/permit_root-800.webp" />
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-SSH/permit_root-1400.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-ssh/permit_root-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-ssh/permit_root-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-ssh/permit_root-1400.webp" />
     
 
     <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/docker-SSH/permit_root.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+    <img src="/assets/img/blog/docker-ssh/permit_root.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
 
   </picture><figcaption class="caption">Granting access to login as root SSH.</figcaption>
 
 </figure>
 
 <p>If you’re SSH server was running while doing this, you will need to restart the SSH service to apply the changes.</p>
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service SSH restart
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service ssh restart
 </code></pre></div></div>
 
 <p>Alternatively, to SSH to patrick,</p>
 
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SSH</span><span class="w"> </span><span class="nx">patrick</span><span class="err">@</span><span class="nx">localhost</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200</span><span class="w">
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ssh</span><span class="w"> </span><span class="nx">patrick</span><span class="err">@</span><span class="nx">localhost</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200</span><span class="w">
 </span></code></pre></div></div>
 <p>and if this is your first time connecting, you will see the message in the image below.</p>
 
@@ -98,13 +98,13 @@ Before creating a new user, we will install sudo which stands for “superuser d
 
   <picture>
     
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-SSH/patrick-SSH-480.webp" />
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-SSH/patrick-SSH-800.webp" />
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-SSH/patrick-SSH-1400.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-ssh/patrick-ssh-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-ssh/patrick-ssh-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-ssh/patrick-ssh-1400.webp" />
     
 
     <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/docker-SSH/patrick-SSH.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+    <img src="/assets/img/blog/docker-ssh/patrick-ssh.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
 
   </picture><figcaption class="caption">Granting access to login as patrick SSH.</figcaption>
 
@@ -124,13 +124,13 @@ Before creating a new user, we will install sudo which stands for “superuser d
 
   <picture>
     
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-SSH/find-ip-480.webp" />
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-SSH/find-ip-800.webp" />
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-SSH/find-ip-1400.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/blog/docker-ssh/find-ip-480.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/blog/docker-ssh/find-ip-800.webp" />
+    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/blog/docker-ssh/find-ip-1400.webp" />
     
 
     <!-- Fallback to the original file -->
-    <img src="/assets/img/blog/docker-SSH/find-ip.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
+    <img src="/assets/img/blog/docker-ssh/find-ip.png" class="img-fluid rounded z-depth-1" width="auto" height="auto" onerror="this.onerror=null; $('.responsive-img-srcset').remove();" />
 
   </picture><figcaption class="caption">Getting your host machine's IP address.</figcaption>
 
@@ -139,15 +139,15 @@ Before creating a new user, we will install sudo which stands for “superuser d
 </div>
 
 <p>Now to connect to the container from another machine, type</p>
-<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SSH</span><span class="w"> </span><span class="nx">patrick</span><span class="err">@</span><span class="nx">HOST_IP</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200</span><span class="w">
+<div class="language-powershell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ssh</span><span class="w"> </span><span class="nx">patrick</span><span class="err">@</span><span class="nx">HOST_IP</span><span class="w"> </span><span class="nt">-p</span><span class="w"> </span><span class="nx">2200</span><span class="w">
 </span></code></pre></div></div>
 <p>and you should be prompted for patrick’s password. Once entered, you will be connected. <strong>Note: Depending on the administrator settings of your host network of your host machine, you may need to VPN into the host network first.</strong></p>
 
 <h2 id="5-conclusion">5. Conclusion</h2>
-<p>In this tutorial we showed how to make a new user, install openSSH-server, and connect to a Docker container via SSH. This is useful for remote development and testing.</p>]]></content><author><name></name></author><category term="tutorials," /><category term="code" /><summary type="html"><![CDATA[This guide will demonstrate how to connect to a Ubuntu Docker container via SSH for remote development.]]></summary></entry><entry><title type="html">Configuring SSH key authentication on a linux server</title><link href="http://localhost:4000/blog/2023/ssh-key-auth/" rel="alternate" type="text/html" title="Configuring SSH key authentication on a linux server" /><published>2023-06-06T00:00:00-04:00</published><updated>2023-06-06T00:00:00-04:00</updated><id>http://localhost:4000/blog/2023/ssh-key-auth</id><content type="html" xml:base="http://localhost:4000/blog/2023/ssh-key-auth/"><![CDATA[<p>There are a few different ways to connect to a linux server. The most common way is to use a password. However, this is not the most secure way to connect to a server. A more secure way is to use SSH key authentication. This guide will demonstrate how to configure SSH key authentication on a linux server.</p>
+<p>In this tutorial we showed how to make a new user, install openssh-server, and connect to a Docker container via SSH. This is useful for remote development and testing.</p>]]></content><author><name></name></author><category term="tutorials," /><category term="code" /><summary type="html"><![CDATA[This guide will demonstrate how to connect to a Ubuntu Docker container via SSH for remote development.]]></summary></entry><entry><title type="html">Configuring SSH key authentication on a linux server</title><link href="http://localhost:4000/blog/2023/ssh-key-auth/" rel="alternate" type="text/html" title="Configuring SSH key authentication on a linux server" /><published>2023-06-06T00:00:00-04:00</published><updated>2023-06-06T00:00:00-04:00</updated><id>http://localhost:4000/blog/2023/ssh-key-auth</id><content type="html" xml:base="http://localhost:4000/blog/2023/ssh-key-auth/"><![CDATA[<p>There are a few different ways to connect to a linux server. The most common way is to use a password. However, this is not the most secure way to connect to a server. A more secure way is to use SSH key authentication. This guide will demonstrate how to configure SSH key authentication on a linux server.</p>
 
 <h2 id="0-what-is-ssh-key-authentication">0. What is SSH key authentication?</h2>
-<p>SSH key authentication is a way to connect to a linux server without using a password. Password authentication can be brute-forced by powerful computers. In SSH key authentication we instead use a public and private key pair. These key pairs are cryptographically secure keys that can be used to authenticate a client to an SSH server. The private key is held by the client and should never be shared. Compromise of the private key will result in a breach. The public key is held by the server and can be shared with anyone. The public key is used to verify the client’s identity. The public key is also used to encrypt messages that can only be decrypted by the private key. This is called <em>asymmetric encryption</em>. They public key is added to a special file within the user account that you’ll be logging into called <code class="language-plaintext highlighter-rouge">~/.SSH/authorized_keys</code>. When a client attempts to authenticate using the SSH key, the server will test the client by encrypting a message with the public key. If the client can decrypt the message with the private key, the client is authenticated and a session is spawned.</p>
+<p>SSH key authentication is a way to connect to a linux server without using a password. Password authentication can be brute-forced by powerful computers. In SSH key authentication we instead use a public and private key pair. These key pairs are cryptographically secure keys that can be used to authenticate a client to an SSH server. The private key is held by the client and should never be shared. Compromise of the private key will result in a breach. The public key is held by the server and can be shared with anyone. The public key is used to verify the client’s identity. The public key is also used to encrypt messages that can only be decrypted by the private key. This is called <em>asymmetric encryption</em>. They public key is added to a special file within the user account that you’ll be logging into called <code class="language-plaintext highlighter-rouge">~/.ssh/authorized_keys</code>. When a client attempts to authenticate using the SSH key, the server will test the client by encrypting a message with the public key. If the client can decrypt the message with the private key, the client is authenticated and a session is spawned.</p>
 
 <h2 id="1-creating-the-ssh-key-pair">1. Creating the SSH key pair</h2>
 

@@ -23,7 +23,7 @@
     <!-- Fonts & Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/academicons@1.9.1/css/academicons.min.css" integrity="sha256-i1+4qU2G2860dGGIOJscdC30s9beBXjFfzjWLjBRsBg=" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700%7CRoboto+Slab:100,300,400,500,700%7CMaterial+Icons">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons">
 
     <!-- Code Syntax Highlighting -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jwarby/jekyll-pygments-themes@master/github.css" media="" id="highlight_theme_light">
@@ -139,7 +139,7 @@
     <p>There are a few different ways to connect to a linux server. The most common way is to use a password. However, this is not the most secure way to connect to a server. A more secure way is to use SSH key authentication. This guide will demonstrate how to configure SSH key authentication on a linux server.</p>
 
 <h2 id="0-what-is-ssh-key-authentication">0. What is SSH key authentication?</h2>
-<p>SSH key authentication is a way to connect to a linux server without using a password. Password authentication can be brute-forced by powerful computers. In SSH key authentication we instead use a public and private key pair. These key pairs are cryptographically secure keys that can be used to authenticate a client to an SSH server. The private key is held by the client and should never be shared. Compromise of the private key will result in a breach. The public key is held by the server and can be shared with anyone. The public key is used to verify the client’s identity. The public key is also used to encrypt messages that can only be decrypted by the private key. This is called <em>asymmetric encryption</em>. They public key is added to a special file within the user account that you’ll be logging into called <code class="language-plaintext highlighter-rouge">~/.SSH/authorized_keys</code>. When a client attempts to authenticate using the SSH key, the server will test the client by encrypting a message with the public key. If the client can decrypt the message with the private key, the client is authenticated and a session is spawned.</p>
+<p>SSH key authentication is a way to connect to a linux server without using a password. Password authentication can be brute-forced by powerful computers. In SSH key authentication we instead use a public and private key pair. These key pairs are cryptographically secure keys that can be used to authenticate a client to an SSH server. The private key is held by the client and should never be shared. Compromise of the private key will result in a breach. The public key is held by the server and can be shared with anyone. The public key is used to verify the client’s identity. The public key is also used to encrypt messages that can only be decrypted by the private key. This is called <em>asymmetric encryption</em>. They public key is added to a special file within the user account that you’ll be logging into called <code class="language-plaintext highlighter-rouge">~/.ssh/authorized_keys</code>. When a client attempts to authenticate using the SSH key, the server will test the client by encrypting a message with the public key. If the client can decrypt the message with the private key, the client is authenticated and a session is spawned.</p>
 
 <h2 id="1-creating-the-ssh-key-pair">1. Creating the SSH key pair</h2>
 
@@ -239,7 +239,7 @@
     <!-- Footer -->    <footer class="sticky-bottom mt-5">
       <div class="container">
         © Copyright 2023 Nicholas R. David. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>. <br>
-Last updated: June 06, 2023.
+Last updated: June 09, 2023.
       </div>
     </footer>
 
