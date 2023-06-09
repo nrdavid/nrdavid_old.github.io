@@ -203,9 +203,9 @@
 <p>into your terminal. After doing open a new python file and run the following code:</p>
 
 <div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Testing connectivity to API by grabbing data for "mp-149"
-</span><span class="kn">from</span> <span class="nn">mp_api</span> <span class="kn">import</span> <span class="n">MPRester</span>
-<span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">YOUR_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
-    <span class="n">doc</span> <span class="o">=</span> <span class="n">mpr</span><span class="p">.</span><span class="n">summary</span><span class="p">.</span><span class="n">get_data_by_id</span><span class="p">(</span><span class="s">"mp-149"</span><span class="p">)</span>
+</span><span class="kn">from</span> <span class="n">mp_api</span> <span class="kn">import</span> <span class="n">MPRester</span>
+<span class="k">with</span> <span class="nc">MPRester</span><span class="p">(</span><span class="n">api_key</span><span class="o">=</span><span class="n">YOUR_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
+    <span class="n">doc</span> <span class="o">=</span> <span class="n">mpr</span><span class="p">.</span><span class="n">summary</span><span class="p">.</span><span class="nf">get_data_by_id</span><span class="p">(</span><span class="sh">"</span><span class="s">mp-149</span><span class="sh">"</span><span class="p">)</span>
 </code></pre></div></div>
 <p>If the code above executes with no errors, you’re all set!</p>
 
