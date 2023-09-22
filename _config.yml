@@ -52,6 +52,9 @@ footer_fixed: false
 # Dimensions
 max_width: 800px
 
+# Encoding
+encoding: UTF-8
+
 # TODO: add layout settings (single page vs. multi-page)
 
 # -----------------------------------------------------------------------------
