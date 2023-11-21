@@ -58,7 +58,7 @@ Now you have all the necessary ground work to produce the volcano plot! The next
 
 1.  Read <a href="https://www.nature.com/articles/s41563-019-0396-2">"A map of the inorganic ternary metal nitrides"</a>, by Wenhao Sun et al.
 2.  Read the <a href="https://docs.materialsproject.org/">Materials Project API Docs</a> and play around with the API functionality.
-3.  Apply dynamic programming to acquire the data needed to create the volcano plot.
+3.  Acquire the data needed to create the volcano plot.
 4.  Familiarize yourself with <a href="https://matplotlib.org/">matplotlib</a>, then make the plot! Note: The plot may look slightly different from API changes over the years.
 
 Lastly, good luck!
